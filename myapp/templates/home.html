@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  BarberSync
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Agendamentos</h2>
+
+  <form method="post" action="{% url 'home' %}" class="mb-4">
+    {% csrf_token %}
+    <div class="btn-group" role="group" aria-label="Filtros">
+      <button type="submit" class="btn btn-primary" name="tipo_filtro" value="dia">Hoje</button>
+      <button type="submit" class="btn btn-primary" name="tipo_filtro" value="semana">Semana</button>
+      <button type="submit" class="btn btn-primary" name="tipo_filtro" value="mes">Mês</button>
+      <button type="submit" class="btn btn-primary" name="tipo_filtro" value="ano">Ano</button>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered ">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-light">Data do Agendamento</th>
+          <th class="text-light">Nome do Cliente</th>
+          <th class="text-light">Número de Telefone</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for agendamento in agendamentos %}
+          <tr>
+            <td class="text-light">{{ agendamento.data_agendamento }}</td>
+            <td class="text-light">{{ agendamento.nome_cliente }}</td>
+            <td class="text-light">{{ agendamento.telefone }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
