@@ -19,8 +19,21 @@ def my_handler(sender, **kwargs):
         MyProfile.objects.create(user=kwargs['instance'])
 
 
+class Barbeiro(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='barbeiros')
+    nome_barbeiro = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.nome_barbeiro
+
+
 class Agendamento(models.Model):
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    data_agendamento = models.DateTimeField()
+    barbeiro = models.ForeignKey(Barbeiro, on_delete=models.CASCADE, related_name='agendamentos')
+    datetime_agendamento = models.DateTimeField()
     nome_cliente = models.CharField(max_length=30)
     telefone = models.CharField(max_length=20)
+    valor_cobrado = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    status = models.BooleanField(default=False)  # False para não concluído, True para concluído
+
+    def __str__(self):
+        return f"Agendamento para {self.barbeiro.nome_barbeiro} em {self.datetime_agendamento}"
