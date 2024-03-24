@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Agendamento
+{% endblock %}
+
+{% block content %}
+  <!-- Tabela para exibir os horários agendados -->
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h2 class="text-center mb-4" style="color: white;">Horários Agendados com {{ agendamentos_barbeiro.0.barbeiro.nome_barbeiro }} </h2>
+        <table class="table table-bordered table-striped text-center">
+          <thead>
+            <tr style="color: white;">
+              <th scope="col">Data e Hora</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for agendamento in agendamentos_barbeiro %}
+              <tr>
+                <td style="color: white;">{{ agendamento.datetime_agendamento|date:"Y-m-d H:i" }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

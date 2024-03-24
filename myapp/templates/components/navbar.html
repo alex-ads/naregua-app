@@ -1,26 +1,34 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand{% if user.is_authenticated %} d-none d-lg-block{% endif %}" href="{% if user.is_authenticated %}{% url 'home' %}{% else %}{% url 'mysite' %}{% endif %}">
-      <img src="{% static 'img/logosemf.png' %}" alt="BarberSync Logo">
-  </a>    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <a class="navbar-brand{% if user.is_authenticated %}{% endif %}"
+      href="{% if user.is_authenticated %}
+        {% url 'home' %}
+      {% else %}
+        {% url 'mysite' %}
+      {% endif %}">
+      <img src="{% static 'img/logosemf.png' %}" alt="BarberSync Logo" />
+    </a>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
       <div class="ms-auto">
         {% if user.is_authenticated %}
-        <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Bem-vindo, {{ user.username }}
-          </button>
-          
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="{% url 'area_barbeiros' %}">Barbeiros</a></li>
-            <li><a class="dropdown-item text-danger" href="{% url 'exit' %}">Sair</a></li>
-          </ul>
-        </div>
-        
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Bem-vindo, {{ user.username }}</button>
+
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+              <li>
+                <a class="dropdown-item" href="{% url 'home' %}">Home</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'area_barbeiros' %}">Administração de Barberbeiros</a>
+              </li>
+              <li>
+                <a class="dropdown-item text-danger" href="{% url 'exit' %}">Sair</a>
+              </li>
+            </ul>
+          </div>
         {% else %}
           <a class="btn btn-outline-primary" href="{% url 'login' %}">Entrar</a>
           <a class="btn btn-success" href="{% url 'register' %}">Registrar</a>

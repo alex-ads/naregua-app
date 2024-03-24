@@ -3,7 +3,6 @@ body {
     color: aliceblue;
 }
 
-
 .navbar-brand img {
     width: auto;
     /* Defina a largura da imagem como automática */
@@ -11,4 +10,13 @@ body {
     /* Defina a altura da imagem */
     /* A altura pode ser ajustada conforme necessário para corresponder ao tamanho do texto original */
     /* Certifique-se de que a largura e a altura proporcionais mantenham a proporção da imagem */
+}
+
+.background2 {
+    background-color: rgb(27, 27, 27);
+}
+
+.background3 {
+    background-color:#303030;
+    color: aliceblue;
 }

@@ -5,40 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card mb-4" style="background-color: #343a40; color: white;">
-        <div class="card-body">
-          <h5 class="card-title">Adicionar Barbeiro</h5>
-          <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-              <label for="id_nome_barbeiro" class="form-label">Nome</label>
-              <input type="text" name="nome_barbeiro" class="form-control rounded" id="id_nome_barbeiro">
-            </div>
-            <button class="btn btn-primary btn-block" type="submit">Adicionar</button>
-          </form>
-        </div>
-      </div>
-      <div class="card" style="background-color: #343a40; color: white;">
-        <div class="card-body">
-          <h5 class="card-title">Barbeiros Cadastrados</h5>
-          <div class="list-group">
-            {% for barbeiro in barbeiros %}
-              <div class="list-group-item" style="background-color: #495057; color: white;">
-                <span>{{ barbeiro.nome_barbeiro }}</span>
-                <form class="float-end" method="post" action="{% url 'excluir_barbeiro' %}">
-                  {% csrf_token %}
-                  <input type="hidden" name="barbeiro" value="{{ barbeiro.id }}">
-                  <button class="btn btn-sm btn-danger" type="submit">Excluir</button>
-                </form>
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card mb-4 background2">
+          <div class="card-body">
+            <h5 class="card-title text-center">Adicionar Barbeiro</h5>
+            <form method="post">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="id_nome_barbeiro" class="form-label">Nome</label>
+                <input type="text" name="nome_barbeiro" class="form-control rounded" id="id_nome_barbeiro" />
               </div>
-            {% endfor %}
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary btn-lg" type="submit">Adicionar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card background2">
+          <div class="card-body">
+            <h5 class="card-title text-center">Barbeiros Cadastrados</h5>
+            <div class="list-group">
+              {% for barbeiro in barbeiros %}
+                <div class="list-group-item background3">
+                  <span>{{ barbeiro.nome_barbeiro }}</span>
+                  <form class="float-end" method="post" action="{% url 'excluir_barbeiro' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="barbeiro" value="{{ barbeiro.id }}" />
+                    <button class="btn btn-sm btn-danger" type="submit">Excluir</button>
+                  </form>
+                </div>
+              {% endfor %}
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}
