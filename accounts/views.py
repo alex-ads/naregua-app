@@ -16,7 +16,7 @@ def register(request):
             user.is_active = False  # Define o usuário como desativado
             user.save()
             messages.success(
-                request, "Registrado. Entre em contato para ativar conta!")
+                request, "Registrado com Sucesso! Entre em contato para ativar conta.")
             form = CustomUserCreationForm()
         else:
             for field, errors in form.errors.items():

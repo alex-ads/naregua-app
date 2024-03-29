@@ -13,8 +13,7 @@ from .forms import FiltroAgendamentoForm
 from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
 from django.utils.translation import gettext as _
 from django.urls import reverse
-
-
+from django.contrib import messages
 
 
 def criar_agendamento(request, username):
@@ -36,7 +35,8 @@ def criar_agendamento(request, username):
                     if agendamento_existente.datetime_agendamento - timedelta(minutes=30) < agendamento.datetime_agendamento < agendamento_existente.datetime_agendamento + timedelta(minutes=30):
                         # Se houver conflito, redireciona para a página de erro de agendamento
                         data_selecionada = agendamento.datetime_agendamento.date()
-                        url = reverse('erro_agendamento', args=[agendamento.barbeiro.id])
+                        url = reverse('erro_agendamento', args=[
+                                      agendamento.barbeiro.id])
                         url += f'?data_selecionada={data_selecionada}'
                         return redirect(url)
 
@@ -50,14 +50,15 @@ def criar_agendamento(request, username):
     return render(request, 'agendamento.html', {'form': form})
 
 
-
 def erro_agendamento(request, barbeiro_id):
     data_selecionada = request.GET.get('data_selecionada')
-    agendamentos_barbeiro = Agendamento.objects.filter(barbeiro_id=barbeiro_id, datetime_agendamento__date=data_selecionada).exclude(cancelamento=True)
-    
+    agendamentos_barbeiro = Agendamento.objects.filter(
+        barbeiro_id=barbeiro_id, datetime_agendamento__date=data_selecionada).exclude(cancelamento=True)
+
     return render(request, 'erro_agendamento.html', {'agendamentos_barbeiro': agendamentos_barbeiro, 'data_selecionada': data_selecionada})
 
 
+@login_required
 def adicionar_corte(request):
     if request.method == 'POST':
         datetime_agendamento = request.POST.get('datetime_agendamento')
@@ -74,13 +75,15 @@ def adicionar_corte(request):
                 telefone=telefone,
                 barbeiro_id=barbeiro_id
             )
-            # Redireciona para alguma página de sucesso ou para outro lugar após salvar os dados
-            # Altere 'pagina_sucesso' para a rota desejada
-            return redirect('home')
+            # Adiciona uma mensagem de sucesso
+            messages.success(request, 'Serviço adicionado com sucesso!')
+            # Obter os barbeiros associados ao usuário autenticado
+            barbeiros = Barbeiro.objects.filter(user=request.user)
+            # Renderiza o template novamente com a mensagem de sucesso e os barbeiros
+            return render(request, 'user_adm/adicionar_corte.html', {'barbeiros': barbeiros})
         else:
             # Se algum campo estiver em branco, exiba uma mensagem de erro ou trate adequadamente
-            return render(request, 'home.html', {'mensagem': 'Todos os campos são obrigatórios!'})
-
+            return render(request, 'user_adm/adicionar_corte.html', {'mensagem': 'Todos os campos são obrigatórios!'})
     else:
         # Obter os barbeiros associados ao usuário autenticado
         barbeiros = Barbeiro.objects.filter(user=request.user)
@@ -93,16 +96,16 @@ def area_barbeiros(request):
         form = BarbeiroForm(request.POST)
         if form.is_valid():
             barbeiro = form.save(commit=False)
-            barbeiro.user = request.user  # Associando o usuário logado ao barbeiro
+            barbeiro.user = request.user
             barbeiro.save()
-            return redirect('home')  # Redireciona para a página de sucesso
+            # Adiciona uma mensagem de sucesso
+            messages.success(request, 'Barbeiro adicionado com sucesso!')
+            return redirect('area_barbeiros')
     else:
         form = BarbeiroForm()
 
-    # Obter todos os barbeiros cadastrados
     barbeiros = Barbeiro.objects.filter(user=request.user)
     return render(request, 'user_adm/area_barbeiros.html', {'form': form, 'barbeiros': barbeiros})
-# views.py
 
 
 @login_required
@@ -171,7 +174,6 @@ def filtrar_agendamentos(agendamentos, tipo_filtro, barbeiro_id=None):
     return agendamentos
 
 
-
 @login_required
 def home(request):
     # Todos os barbeiros associados ao usuário logado
@@ -193,7 +195,8 @@ def home(request):
     agendamentos_por_dia = {}
     for agendamento in agendamentos:
         dia_semana = agendamento.datetime_agendamento.strftime('%A')
-        dia_semana = _(dia_semana)  # Traduzindo o nome do dia da semana para português
+        # Traduzindo o nome do dia da semana para português
+        dia_semana = _(dia_semana)
         data = agendamento.datetime_agendamento.strftime('%d/%m/%Y')
         if dia_semana not in agendamentos_por_dia:
             agendamentos_por_dia[dia_semana] = {}
@@ -230,4 +233,3 @@ def atualizar_status(request, agendamento_id):
     else:
         # Se o método da requisição não for POST, retorne uma resposta de erro
         return HttpResponseNotAllowed(['POST'])
-
