@@ -35,61 +35,66 @@
 
     <div class="table-responsive">
       <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-          <tr>
-            <th class="text-light">Data e Hora</th>
-            <th class="text-light">Nome</th>
-            <th class="text-light">Telefone</th>
-            <th class="text-light">Status</th> <!-- Adiciona uma coluna para a ação de atualização de status -->
-          </tr>
-        </thead>
         <tbody>
-          {% for agendamento in agendamentos %}
-            <tr>
-              <td class="text-light">{{ agendamento.datetime_agendamento|date:'d/m/Y H:i' }}</td>
-              <td class="text-light">{{ agendamento.nome_cliente }}</td>
-              <td class="text-light">{{ agendamento.telefone }}</td>
-              <td>
-                <!-- Coluna para o formulário de atualização de status -->
-                <form id="form-{{ agendamento.id }}" action="{% url 'atualizar_status' agendamento.id %}" method="post">
-                  {% csrf_token %}
-                  <div class="input-group">
-                    <!-- Adicione as classes 'input-group-prepend' e 'input-group-text' para o elemento que você deseja adicionar antes do campo de entrada -->
-                    <!-- Adicione a classe 'form-control' para o campo de entrada -->
-                    <input type="number" class="form-control" style="width: 30px;" name="valor_cobrado" id="valor_cobrado_{{ agendamento.id }}" placeholder="R$" required />
-                    <!-- Adicione o botão 'Concluir' -->
-                    <div class="input-group-append">
-                      <button type="button" class="btn btn-success" onclick="confirmarConclusao({{ agendamento.id }})">Concluir</button>
-                    </div>
-                  </div>
-                </form>
-              </td>
-            </tr>
+          {% for dia_semana, datas_agendamentos in agendamentos_por_dia.items %}
+            {% for data, agendamentos in datas_agendamentos.items %}
+              <tr>
+                <th colspan="3" class="text-light">{{ dia_semana }} {{ data }}</th>
+              </tr>
+              {% for agendamento in agendamentos %}
+                <tr>
+                  <td colspan="3">
+                    <div class="text-light">Horário: {{ agendamento.datetime_agendamento|date:'H:i' }}</div>
+                    <div class="text-light">Cliente: {{ agendamento.nome_cliente }}</div>
+                    <div class="text-light">Telefone: {{ agendamento.telefone }}</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    <form id="form-{{ agendamento.id }}" action="{% url 'atualizar_status' agendamento.id %}" method="post">
+                      {% csrf_token %}
+                      <div class="input-group">
+                          <input type="number" class="form-control form-control-sm" style="width: 60px; height: 30px;" name="valor_cobrado" id="valor_cobrado_{{ agendamento.id }}" placeholder="R$" required />
+                          <div class="input-group-append">
+                              <button type="button" class="btn btn-sm btn-success" onclick="executarAcao('{{ agendamento.id }}', 'concluir')">Concluir</button>
+                              <button type="button" class="btn btn-sm btn-danger ml-1" onclick="executarAcao('{{ agendamento.id }}', 'cancelar')">Cancelar</button>
+                          </div>
+                      </div>
+                      <input type="hidden" name="acao" id="acao_{{ agendamento.id }}" value=""> <!-- Campo oculto para armazenar a ação -->
+                  </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% endfor %}
           {% endfor %}
-
-          <script>
-            function confirmarConclusao(agendamentoId) {
-              // Obtém o valor do campo de valor
-              var valorCobrado = document.getElementById('valor_cobrado_' + agendamentoId).value
-            
-              // Verifica se o valor foi preenchido
-              if (!valorCobrado) {
-                alert('Por favor, insira o valor do serviço.')
-                return
-              }
-            
-              // Confirmação adicional, se desejar
-              if (!confirm('Tem certeza de que deseja concluir este agendamento?')) {
-                return
-              }
-            
-              // Envia o formulário
-              document.getElementById('form-' + agendamentoId).submit()
-            }
-          </script>
         </tbody>
       </table>
     </div>
   </div>
+
+
+  <script>
+    function executarAcao(agendamentoId, acao) {
+        // Define o valor do campo oculto com a ação correspondente
+        document.getElementById('acao_' + agendamentoId).value = acao;
+
+        // Se a ação for "concluir", verificar se o campo de valor foi preenchido
+        if (acao === 'concluir') {
+            var valorCobrado = document.getElementById('valor_cobrado_' + agendamentoId).value;
+            if (!valorCobrado) {
+                alert('Por favor, insira o valor do serviço.');
+                return;
+            }
+        } else if (acao === 'cancelar') {
+            // Confirmação para cancelar
+            if (!confirm('Tem certeza de que deseja cancelar este agendamento?')) {
+                return;
+            }
+        }
+
+        // Submete o formulário
+        document.getElementById('form-' + agendamentoId).submit();
+    }
+</script>
 
 {% endblock %}

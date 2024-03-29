@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  BarberSync
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="p-4 background2 border-3 rounded">
+          <h2 class="text-center mb-4">Bem-vindo</h2>
+
+          <div id="formularioContainer">
+            <form method="post" action="{% url 'adicionar_corte' %}">
+              {% csrf_token %}
+
+              <div class="mb-3">
+                <label for="id_datetime_agendamento" class="form-label">Data e Hora do Agendamento:</label>
+                <input type="datetime-local" name="datetime_agendamento" class="form-control" id="id_datetime_agendamento" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="id_nome_cliente" class="form-label">Seu Nome:</label>
+                <input type="text" name="nome_cliente" class="form-control" id="id_nome_cliente" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="id_telefone" class="form-label">Telefone:</label>
+                <input type="text" name="telefone" class="form-control" id="id_telefone" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="id_barbeiro" class="form-label">Selecione o Barbeiro:</label>
+                <select name="barbeiro" id="id_barbeiro" class="form-select" required>
+                  <option value="" selected disabled>---------</option>
+                  {% for barbeiro in barbeiros %}
+                    <option value="{{ barbeiro.id }}">{{ barbeiro.nome_barbeiro }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary btn-lg" type="submit">Enviar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

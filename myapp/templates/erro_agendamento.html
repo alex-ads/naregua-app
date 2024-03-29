@@ -1,30 +1,32 @@
-{% extends 'base.html' %}
+{% extends 'agendamento.html' %}
 
 {% block title %}
-  Agendamento
+  Agendamentos - {{ agendamentos_barbeiro.0.barbeiro.nome_barbeiro }}
 {% endblock %}
 
 {% block content %}
-  <!-- Tabela para exibir os horários agendados -->
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <h2 class="text-center mb-4" style="color: white;">Horários Agendados com {{ agendamentos_barbeiro.0.barbeiro.nome_barbeiro }} </h2>
+<!-- Tabela para exibir os horários agendados -->
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="border-3 rounded p-4 background2">
+        <h2 class="text-center mb-4" style="color: white;">Horários agendados com {{ agendamentos_barbeiro.0.barbeiro.nome_barbeiro }}</h2>
         <table class="table table-bordered table-striped text-center">
           <thead>
             <tr style="color: white;">
-              <th scope="col">Data e Hora</th>
+              <th scope="col" class="bg-secondary text-white">Data e Hora</th>
             </tr>
           </thead>
           <tbody>
             {% for agendamento in agendamentos_barbeiro %}
-              <tr>
-                <td style="color: white;">{{ agendamento.datetime_agendamento|date:"Y-m-d H:i" }}</td>
-              </tr>
+            <tr class="hover-row">
+              <td style="color: white;">{{ agendamento.datetime_agendamento|date:'d/m/Y H:i' }}</td>
+            </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}

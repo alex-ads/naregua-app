@@ -22,7 +22,13 @@
                 <a class="dropdown-item" href="{% url 'home' %}">Home</a>
               </li>
               <li>
-                <a class="dropdown-item" href="{% url 'area_barbeiros' %}">Administração de Barberbeiros</a>
+                <a class="dropdown-item" href="{% url 'adicionar_corte' %}">Cortes</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{% url 'area_barbeiros' %}">Barberbeiros</a>
+              </li>
+              <li>
+                <button class="dropdown-item" id="copyLinkBtn">Meu Link</button>
               </li>
               <li>
                 <a class="dropdown-item text-danger" href="{% url 'exit' %}">Sair</a>
@@ -37,3 +43,28 @@
     </div>
   </div>
 </nav>
+
+{% block scripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var copyLinkBtn = document.getElementById('copyLinkBtn')
+      copyLinkBtn.addEventListener('click', function () {
+        var username = '{{ user.username }}'
+        var domain = window.location.protocol + '//' + window.location.host
+        var link = domain + '/' + username
+    
+        // Código para copiar o link para a área de agendamentos para a área de transferência
+        navigator.clipboard.writeText(link).then(
+          function () {
+            console.log('Link copiado para a área de transferência: ' + link)
+            alert('Link copiado para a área de transferência: ' + link)
+          },
+          function (err) {
+            console.error('Erro ao copiar o link: ', err)
+            alert('Erro ao copiar o link.')
+          }
+        )
+      })
+    })
+  </script>
+{% endblock %}
