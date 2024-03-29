@@ -9,19 +9,19 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="p-4 background2 border-3 rounded">
-          <h2 class="text-center mb-4">Bem-vindo</h2>
+          <h2 class="text-center mb-4">Adicionar Serviço</h2>
 
           <div id="formularioContainer">
             <form method="post" action="{% url 'adicionar_corte' %}">
               {% csrf_token %}
 
               <div class="mb-3">
-                <label for="id_datetime_agendamento" class="form-label">Data e Hora do Agendamento:</label>
+                <label for="id_datetime_agendamento" class="form-label">Data e Hora:</label>
                 <input type="datetime-local" name="datetime_agendamento" class="form-control" id="id_datetime_agendamento" required />
               </div>
 
               <div class="mb-3">
-                <label for="id_nome_cliente" class="form-label">Seu Nome:</label>
+                <label for="id_nome_cliente" class="form-label">Nome do cliente:</label>
                 <input type="text" name="nome_cliente" class="form-control" id="id_nome_cliente" required />
               </div>
 
@@ -31,7 +31,7 @@
               </div>
 
               <div class="mb-3">
-                <label for="id_barbeiro" class="form-label">Selecione o Barbeiro:</label>
+                <label for="id_barbeiro" class="form-label">Barbeiro:</label>
                 <select name="barbeiro" id="id_barbeiro" class="form-select" required>
                   <option value="" selected disabled>---------</option>
                   {% for barbeiro in barbeiros %}

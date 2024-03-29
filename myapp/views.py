@@ -53,7 +53,7 @@ def criar_agendamento(request, username):
 
 def erro_agendamento(request, barbeiro_id):
     data_selecionada = request.GET.get('data_selecionada')
-    agendamentos_barbeiro = Agendamento.objects.filter(barbeiro_id=barbeiro_id, datetime_agendamento__date=data_selecionada)
+    agendamentos_barbeiro = Agendamento.objects.filter(barbeiro_id=barbeiro_id, datetime_agendamento__date=data_selecionada).exclude(cancelamento=True)
     
     return render(request, 'erro_agendamento.html', {'agendamentos_barbeiro': agendamentos_barbeiro, 'data_selecionada': data_selecionada})
 

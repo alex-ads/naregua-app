@@ -54,14 +54,14 @@
                     <form id="form-{{ agendamento.id }}" action="{% url 'atualizar_status' agendamento.id %}" method="post">
                       {% csrf_token %}
                       <div class="input-group">
-                          <input type="number" class="form-control form-control-sm" style="width: 60px; height: 30px;" name="valor_cobrado" id="valor_cobrado_{{ agendamento.id }}" placeholder="R$" required />
-                          <div class="input-group-append">
-                              <button type="button" class="btn btn-sm btn-success" onclick="executarAcao('{{ agendamento.id }}', 'concluir')">Concluir</button>
-                              <button type="button" class="btn btn-sm btn-danger ml-1" onclick="executarAcao('{{ agendamento.id }}', 'cancelar')">Cancelar</button>
-                          </div>
+                        <input type="number" class="form-control form-control-sm" style="width: 60px; height: 30px;" name="valor_cobrado" id="valor_cobrado_{{ agendamento.id }}" placeholder="R$" required />
+                        <div class="input-group-append">
+                          <button type="button" class="btn btn-sm btn-success" onclick="executarAcao('{{ agendamento.id }}', 'concluir')">Concluir</button>
+                          <button type="button" class="btn btn-sm btn-danger ml-1" onclick="executarAcao('{{ agendamento.id }}', 'cancelar')">Cancelar</button>
+                        </div>
                       </div>
-                      <input type="hidden" name="acao" id="acao_{{ agendamento.id }}" value=""> <!-- Campo oculto para armazenar a ação -->
-                  </form>
+                      <input type="hidden" name="acao" id="acao_{{ agendamento.id }}" value="" /> <!-- Campo oculto para armazenar a ação -->
+                    </form>
                   </td>
                 </tr>
               {% endfor %}
@@ -72,29 +72,27 @@
     </div>
   </div>
 
-
   <script>
     function executarAcao(agendamentoId, acao) {
-        // Define o valor do campo oculto com a ação correspondente
-        document.getElementById('acao_' + agendamentoId).value = acao;
-
-        // Se a ação for "concluir", verificar se o campo de valor foi preenchido
-        if (acao === 'concluir') {
-            var valorCobrado = document.getElementById('valor_cobrado_' + agendamentoId).value;
-            if (!valorCobrado) {
-                alert('Por favor, insira o valor do serviço.');
-                return;
-            }
-        } else if (acao === 'cancelar') {
-            // Confirmação para cancelar
-            if (!confirm('Tem certeza de que deseja cancelar este agendamento?')) {
-                return;
-            }
+      // Define o valor do campo oculto com a ação correspondente
+      document.getElementById('acao_' + agendamentoId).value = acao
+    
+      // Se a ação for "concluir", verificar se o campo de valor foi preenchido
+      if (acao === 'concluir') {
+        var valorCobrado = document.getElementById('valor_cobrado_' + agendamentoId).value
+        if (!valorCobrado) {
+          alert('Por favor, insira o valor do serviço.')
+          return
         }
-
-        // Submete o formulário
-        document.getElementById('form-' + agendamentoId).submit();
+      } else if (acao === 'cancelar') {
+        // Confirmação para cancelar
+        if (!confirm('Tem certeza de que deseja cancelar este agendamento?')) {
+          return
+        }
+      }
+    
+      // Submete o formulário
+      document.getElementById('form-' + agendamentoId).submit()
     }
-</script>
-
+  </script>
 {% endblock %}
