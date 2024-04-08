@@ -1,48 +1,35 @@
 {% load static %}
+<!-- Navbar para o restante do sistema -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-    <a class="navbar-brand{% if user.is_authenticated %}{% endif %}"
-      href="{% if user.is_authenticated %}
-        {% url 'home' %}
-      {% else %}
-        {% url 'mysite' %}
-      {% endif %}">
+    <a class="navbar-brand" href="{% url 'home' %}">
       <img src="{% static 'img/logosemf.png' %}" alt="BarberSync Logo" />
     </a>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-      <div class="ms-auto">
-        {% if user.is_authenticated %}
-          <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Bem-vindo, {{ user.username }}</button>
-
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-              <li>
-                <a class="dropdown-item" href="{% url 'home' %}">Home</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{% url 'adicionar_corte' %}">Registro de Serviço</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="{% url 'area_barbeiros' %}">Administração de Barberbeiros</a>
-              </li>
-              <li>
-                <button class="dropdown-item" id="copyLinkBtn">Meu link</button>
-              </li>
-              <li>
-                <a class="dropdown-item text-danger" href="{% url 'exit' %}">Sair</a>
-              </li>
-            </ul>
-          </div>
-        {% else %}
-          <a class="btn btn-outline-primary" href="{% url 'login' %}">Entrar</a>
-          <a class="btn btn-success" href="{% url 'register' %}">Registrar</a>
-        {% endif %}
-      </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0 d-flex align-items-center">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home' %}" style="white-space: nowrap;">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'adicionar_corte' %}" style="white-space: nowrap;">Registro de Serviço</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'area_barbeiros' %}" style="white-space: nowrap;">Administração de Barberbeiros</a>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link btn btn-link" id="copyLinkBtn" style="white-space: nowrap;">Meu link</button>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-danger" href="{% url 'exit' %}" style="white-space: nowrap;">Sair</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
+
 
 {% block scripts %}
   <script>

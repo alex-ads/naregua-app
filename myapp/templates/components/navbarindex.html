@@ -1,0 +1,14 @@
+{% load static %}
+<!-- Navbar para a página inicial -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'mysite' %}">
+      <img src="{% static 'img/logosemf.png' %}" alt="BarberSync Logo" />
+    </a>
+    <div class="d-flex align-items-center">
+      <a class="btn btn-outline-primary me-2" href="{% url 'login' %}">Entrar</a>
+      <a class="btn btn-success" href="{% url 'register' %}">Registrar</a>
+    </div>
+  </div>
+</nav>

@@ -43,11 +43,11 @@ def criar_agendamento(request, username):
             # Se todas as verificações passarem, salva o agendamento
             agendamento.save()
             mensagem_confirmacao = "Seu agendamento foi feito com sucesso!"
-            return render(request, 'agendamento.html', {'form': form, 'mensagem_confirmacao': mensagem_confirmacao})
+            return render(request, 'cliente/agendamento.html', {'form': form, 'mensagem_confirmacao': mensagem_confirmacao})
     else:
         form = AgendamentoForm(barbearia=barbearia)
 
-    return render(request, 'agendamento.html', {'form': form})
+    return render(request, 'cliente/agendamento.html', {'form': form})
 
 
 def erro_agendamento(request, barbeiro_id):
@@ -55,7 +55,7 @@ def erro_agendamento(request, barbeiro_id):
     agendamentos_barbeiro = Agendamento.objects.filter(
         barbeiro_id=barbeiro_id, datetime_agendamento__date=data_selecionada).exclude(cancelamento=True)
 
-    return render(request, 'erro_agendamento.html', {'agendamentos_barbeiro': agendamentos_barbeiro, 'data_selecionada': data_selecionada})
+    return render(request, 'cliente/erro_agendamento.html', {'agendamentos_barbeiro': agendamentos_barbeiro, 'data_selecionada': data_selecionada})
 
 
 @login_required
@@ -205,7 +205,7 @@ def home(request):
         agendamentos_por_dia[dia_semana][data].append(agendamento)
 
     form = FiltroAgendamentoForm()
-    return render(request, 'home.html', {'agendamentos_por_dia': agendamentos_por_dia, 'form': form, 'barbeiros': barbeiros_do_usuario})
+    return render(request, 'user_adm/home.html', {'agendamentos_por_dia': agendamentos_por_dia, 'form': form, 'barbeiros': barbeiros_do_usuario})
 
 
 @login_required

@@ -1,0 +1,36 @@
+{% extends 'cliente/agendamento.html' %}
+
+{% block title %}
+  Agendamentos - {{ agendamentos_barbeiro.0.barbeiro.nome_barbeiro }}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="border-3 rounded p-4 background2">
+        <h2 class="text-center mb-4" style="color: white;">Agendamentos com {{ agendamentos_barbeiro.0.barbeiro.nome_barbeiro }}</h2>
+        <table class="table table-bordered table-striped text-center">
+          <thead>
+            <tr style="color: white;">
+              <th scope="col" class="bg-secondary text-white">Dia da Semana e Data</th>
+              <th scope="col" class="bg-secondary text-white">Horários</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for agendamento in agendamentos_barbeiro|dictsort:"datetime_agendamento" %}
+              <tr class="hover-row">
+                <td style="color: white;">{{ agendamento.datetime_agendamento|date:'l d/m/Y' }}</td>
+                <td style="color: white;">{{ agendamento.datetime_agendamento|date:'H:i' }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table><br /><div class="text-center" style="color: red">
+          <p>Selecione um horário que esteja 30 minutos antes ou depois do último agendamento</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
