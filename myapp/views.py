@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from .forms import BarbeiroForm
 from datetime import date
 from .forms import FiltroAgendamentoForm
-from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
+from django.http import Http404, HttpResponseBadRequest, HttpResponseNotAllowed
 from django.utils.translation import gettext as _
 from django.urls import reverse
 from django.contrib import messages
@@ -56,15 +56,19 @@ def criar_agendamento(request, username):
 
     except ValidationError as ve:
         # Tratar validações de formulário
+        form = AgendamentoForm(barbearia=barbearia)  # Instanciar o formulário novamente
         mensagem_erro = "Ocorreu um erro de validação: {}".format(ve)
         return render(request, 'cliente/agendamento.html', {'form': form, 'mensagem_erro': mensagem_erro})
 
+    except Http404:
+        raise  # Se não encontrou o usuário, deixe a exceção ser propagada
+
     except Exception as e:
         # Em caso de qualquer outra exceção, retornar uma resposta de erro adequada
+        form = AgendamentoForm(barbearia=barbearia)  # Instanciar o formulário novamente
         mensagem_erro = "Ocorreu um erro ao processar o agendamento: {}".format(
             e)
         return render(request, 'cliente/agendamento.html', {'form': form, 'mensagem_erro': mensagem_erro})
-
 
 def erro_agendamento(request, barbeiro_id):
     try:
