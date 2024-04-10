@@ -11,3 +11,4 @@ mydatabase
 file_name.sql
 __pycache__ 
 __pycache__/
+.vercel
