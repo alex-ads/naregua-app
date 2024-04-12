@@ -1,29 +1,45 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "myapp/wsgi.py",
-        "use": "@vercel/python",
-        "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
-      },
-      {
-        "src": "build_files.sh",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "staticfiles_build"
-        }
+  "version": 2,
+  "builds": [
+    {
+      "src": "myapp/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.9"
       }
+    },
+    {
+      "src": "build_files.sh",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "staticfiles_build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "myapp/wsgi.py"
+    }
+  ],
+  "env": {
+    "PYTHON_VERSION": "3.8"
+  },
+  "functions": {
+    "myFunction": {
+      "runtime": "vercel-python@3.8",
+      "memory": 1024
+    }
+  },
+  "install": {
+    "include": [
+      "^requirements\\.txt$"
     ],
-    "routes": [
-      {
-        "src": "/static/(.*)",
-        "dest": "/static/$1"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "myapp/wsgi.py"
-      }
-    ]
+    "alwaysInstall": true
   }
-  
-  
+}
