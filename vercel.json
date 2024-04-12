@@ -27,15 +27,6 @@
       "dest": "myapp/wsgi.py"
     }
   ],
-  "env": {
-    "PYTHON_VERSION": "3.9"
-  },
-  "functions": {
-    "myFunction": {
-      "runtime": "vercel-python@3.8",
-      "memory": 1024
-    }
-  },
   "install": {
     "include": [
       "^requirements\\.txt$"
