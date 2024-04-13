@@ -15,27 +15,16 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Onde os arquivos estáticos serão coletados
-STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static'),  # Diretório onde seus arquivos estáticos estão localizados
-]
+# Diretório onde seus arquivos estáticos estão localizados
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+# Onde os arquivos estáticos serão coletados
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-    },
-}
-
-
-
-
-
 
 
 # Quick-start development settings - unsuitable for production
@@ -51,9 +40,7 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
-INSTALLED_APPS = [ 
-    "whitenoise.runserver_nostatic",
+INSTALLED_APPS = [
     'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -72,7 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -87,7 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages', 
+                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
@@ -110,7 +97,6 @@ DATABASES = {
         'PORT': '12774',
     }
 }
-
 
 
 # Password validation
@@ -138,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'UTC'
 USE_I18N = True
-USE_L10N = True 
+USE_L10N = True
 USE_TZ = True
 
 
@@ -153,6 +139,3 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = '/'
-
-STATIC_HOST = "https://d2kzsbp6wz0lhn.cloudfront.net" if not DEBUG else ""
-STATIC_URL = STATIC_HOST + "/static/"
