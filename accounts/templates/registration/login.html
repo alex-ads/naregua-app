@@ -38,15 +38,15 @@
     </div>
   </div>
   <script>
-    // Função para ocultar as mensagens de erro após 5 segundos
+    // Função para ocultar as mensagens de erro após 8 segundos
     function hideErrorMessages() {
-      const errorAlerts = document.querySelectorAll('.error-message')
+      const errorAlerts = document.querySelectorAll('.error-message');
       errorAlerts.forEach((alert) => {
         setTimeout(() => {
-          alert.style.display = 'none'
-        }, 10000) // 5000 milissegundos = 5 segundos
-      })
+          alert.style.display = 'none';
+        }, 8000); // 8000 milissegundos = 8 segundos
+      });
     }
-    window.onload = hideErrorMessages
+    window.onload = hideErrorMessages;
   </script>
 {% endblock %}
