@@ -9,7 +9,8 @@ class AgendamentoForm(forms.ModelForm):
         barbearia = kwargs.pop('barbearia', None)
         super(AgendamentoForm, self).__init__(*args, **kwargs)
         if barbearia:
-            self.fields['barbeiro'].queryset = Barbeiro.objects.filter(user=barbearia)
+            barbeiros_ativos = Barbeiro.objects.filter(user=barbearia, activated=True)
+            self.fields['barbeiro'].queryset = barbeiros_ativos
 
     class Meta:
         model = Agendamento

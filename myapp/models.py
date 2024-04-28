@@ -25,6 +25,7 @@ class Barbeiro(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='barbeiros')
     nome_barbeiro = models.CharField(max_length=30)
+    activated = models.BooleanField(default=True)  # Campo booleano para indicar se o barbeiro está ativado ou não
 
     def __str__(self):
         return self.nome_barbeiro
