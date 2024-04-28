@@ -23,7 +23,7 @@
         <div class="form-group mr-3 m-1">
           <label for="barbeiro_id"></label>
           <select name="barbeiro_id" id="barbeiro_id" class="form-control">
-            <option value="">Todos os barbeiros</option>
+            <option value="">Todos</option>
             {% for barbeiro in barbeiros %}
               <option value="{{ barbeiro.id }}">{{ barbeiro.nome_barbeiro }}</option>
             {% endfor %}
